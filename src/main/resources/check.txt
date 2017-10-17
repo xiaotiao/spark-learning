@@ -1,0 +1,13 @@
+ select
+        o.shop_code,
+       collect_set(o.shop_name),
+        collect_set(o.mid_classify_code),
+        collect_set(o.sku_main_code),
+        o.sku_code,
+        o.transport_num,
+       collect_set(o.order_date),
+sum(o.actual_order_count) actual_order_count
+        FROM
+        o
+        group by o.shop_code,o.sku_code,o.transport_num
+            having sum(o.actual_order_count) = 0

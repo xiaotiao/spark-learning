@@ -1,0 +1,73 @@
+    select
+
+        o.order_date,
+        o.shop_code,
+        o.sku_code,
+        o.transport_num,
+        o.batch_code,
+        o.mid_classify_code,
+        o.sku_type,
+        o.sale_level,
+        o.whether_new,
+        o.whether_popular,
+        o.shop_name,
+        o.sku_main_code,
+        o.actual_order_count,
+        o.yesterday_stock,
+        oc.purchasing_unit_price as purchasing_unit_price,
+        o.confirm_order_count,
+        oc.sale_amount_day as sale_amount_day,
+        oc.order_amount_day as order_amount_day,
+        o.refer_abandon_amount,
+        o.expiration,
+        oc.booking_qty as booking_qty,
+        oc.shop_start_date,
+        oc.yesterday_booking_qty as yesterday_booking_qty
+
+        from operation_detail o
+        left join  order_check oc on o.shop_code = oc.shop_code
+        and o.sku_code = oc.sku_code
+        and o.transport_num = oc.transport_num
+        and oc.order_date = '2017-10-09'
+
+        where  o.order_date = '2017-10-09'
+
+    union all
+
+    select
+
+        o.order_date,
+        o.shop_code,
+        o.sku_code,
+        o.transport_num,
+        o.batch_code,
+        o.mid_classify_code,
+        o.sku_type,
+        o.sale_level,
+        o.whether_new,
+        o.whether_popular,
+        o.shop_name,
+        o.sku_main_code,
+
+
+        0 as actual_order_count,
+        o.yesterday_stock,
+        o.purchasing_unit_price,
+        0 as confirm_order_count,
+        o.sale_amount_day,
+        o.order_amount_day,
+        o.refer_abandon_amount,
+        o.expiration,
+
+        o.booking_qty,
+
+        o.shop_start_date,
+        o.yesterday_booking_qty
+
+        from order_check o
+        left join  operation_detail oc on o.shop_code = oc.shop_code
+        and o.sku_code = oc.sku_code
+        and o.transport_num = oc.transport_num
+        and oc.order_date = '2017-10-09'
+        and oc.id = null
+         where  o.order_date = '2017-10-09'
